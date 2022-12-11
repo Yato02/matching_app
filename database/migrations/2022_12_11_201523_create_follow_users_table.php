@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('follow_users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image', 100)->nullable();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('sex', 50);
-            $table->string('age');
-            $table->string('introduction', 500);
+            $table->unsignedBigInteger('follower_id');
+            $table->unsignedBigInteger('followee_id');
+            
+            $table->foreign('follower_id')->references('id')->on('users');
+            $table->foreign('followee_id')->references('id')->on('users');
         });
     }
 
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('follow_users');
     }
 };
